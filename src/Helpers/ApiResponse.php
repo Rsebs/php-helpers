@@ -2,7 +2,7 @@
 
 namespace PhpHelpers\Helpers;
 
-class ApiResponse
+trait ApiResponse
 {
     /**
      * Generates a standardized success response.
