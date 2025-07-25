@@ -57,4 +57,24 @@ class AuthService
     {
         return $user->createToken('api-token', ['*'], now()->addHours($addHours));
     }
+
+    /**
+     * Revoke the current active personal access token.
+     *
+     * @throws \Exception
+     */
+    public function logoutUser(): void
+    {
+        $user = Auth::user();
+        if (!($user instanceof User))
+            throw new \Exception('Bad request', 422);
+
+        $token = $user->currentAccessToken();
+
+        if (!$token)
+            throw new \Exception('No active token found', 401);
+
+        /** @var \Laravel\Sanctum\PersonalAccessToken $token */
+        $token->delete();
+    }
 }
