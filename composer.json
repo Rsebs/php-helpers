@@ -1,0 +1,11 @@
+{
+  "name": "rsebs/php-helpers",
+  "description": "Helpers PHP comunes",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Rsebs\\Helpers\\": "src/"
+    }
+  },
+  "require": {}
+}
