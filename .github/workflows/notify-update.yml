@@ -11,9 +11,15 @@ jobs:
 
     steps:
       - name: Send repository_dispatch event to Booknest API
+        env:
+          TOKEN: ${{ secrets.MAIN_PROJECT_TOKEN }}
         run: |
+          # Extract tag name without refs prefix
+          TAG="${GITHUB_REF##*/}"
+          echo "Detected tag: $TAG"
+
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.MAIN_PROJECT_TOKEN }}" \
+            -H "Authorization: Bearer $TOKEN" \
             https://api.github.com/repos/Rsebs/booknest-api/dispatches \
-            -d '{"event_type": "helper_updated"}'
+            -d "{\"event_type\": \"helper_updated\", \"client_payload\": {\"tag\": \"${TAG}\"}}"
