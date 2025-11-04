@@ -1,0 +1,19 @@
+name: Notify Booknest API on new tag
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send repository_dispatch event to Booknest API
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.MAIN_PROJECT_TOKEN }}" \
+            https://api.github.com/repos/Rsebs/booknest-api/dispatches \
+            -d '{"event_type": "helper_updated"}'
