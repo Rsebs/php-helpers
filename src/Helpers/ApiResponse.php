@@ -24,13 +24,6 @@ trait ApiResponse
             'code' => $statusCode,
         ];
 
-        LogActivityHelper::log([
-            'status' => 'success',
-            'message' => $message,
-            'data_request' => request()?->all(),
-            'data_response' => $dataResponse,
-        ]);
-
         return response()->json($dataResponse, $statusCode);
     }
 
@@ -53,13 +46,6 @@ trait ApiResponse
             'errors' => $errors,
             'code' => $statusCode,
         ];
-
-        LogActivityHelper::log([
-            'errors' => $errors,
-            'status' => 'error',
-            'data_request' => request()?->all(),
-            'data_response' => $dataResponse,
-        ]);
 
         return response()->json($dataResponse, $statusCode);
     }
