@@ -15,12 +15,14 @@ trait ApiResponse
     public static function successResponse(
         array|object $data = [],
         string $message = 'Operation successful',
-        int $statusCode = 200
+        int $statusCode = 200,
+        array|object|null $meta = null,
     ) {
         $dataResponse = [
             'status' => 'success',
             'message' => $message,
             'data' => $data,
+            'meta' => $meta,
             'code' => $statusCode,
         ];
 
