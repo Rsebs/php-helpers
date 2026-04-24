@@ -8,7 +8,7 @@ class LookupService
   {
     $config = config("lookup.resources.$resource");
 
-    if (!$config) abort(404);
+    if (!$config) abort(404, 'Resource not found');
 
     $model = $config['model'];
     $label = $config['label'];
