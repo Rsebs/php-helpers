@@ -29,16 +29,16 @@ class AuthService
      * @param string $email
      * @param string $password
      * @return AuthResponseDTO
-     * @throws \Exception
+     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function attemptLogin(string $email, string $password): AuthResponseDTO
     {
         if (!Auth::attempt(['email' => $email, 'password' => $password]))
-            throw new \Exception('Wrong Credentials', 401);
+            throw new \Illuminate\Auth\AuthenticationException('Wrong Credentials', 401);
 
         $user = Auth::user();
         if (!($user instanceof User))
-            throw new \Exception('Bad request', 422);
+            throw new \Illuminate\Auth\AuthenticationException('Bad request', 422);
 
         $user->tokens()->delete();
         $token = $this->createToken($user);
@@ -61,18 +61,18 @@ class AuthService
     /**
      * Revoke the current active personal access token.
      *
-     * @throws \Exception
+     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function logoutUser(): void
     {
         $user = Auth::user();
         if (!($user instanceof User))
-            throw new \Exception('Bad request', 422);
+            throw new \Illuminate\Auth\AuthenticationException('Bad request', 422);
 
         $token = $user->currentAccessToken();
 
         if (!$token)
-            throw new \Exception('No active token found', 401);
+            throw new \Illuminate\Auth\AuthenticationException('No active token found', 401);
 
         /** @var \Laravel\Sanctum\PersonalAccessToken $token */
         $token->delete();
